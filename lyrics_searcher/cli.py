@@ -9,6 +9,7 @@ from pathlib import Path
 from queue import Queue
 
 import lyrics_searcher.api as api
+
 logging.basicConfig(level=logging.INFO)
 SUPPORTED_FILETYPES = [".mp3", ".wav", ".flac", ".ogg", ".wma", ".m4a", ".oga"]
 end_of_search = threading.Event()
@@ -61,23 +62,17 @@ def process_file_queue(file_queue: Queue[Path], lrc: bool = True):
                         txt = lyric_file / (filename + ".txt")
                         lrc = lyric_file / (filename + ".lrc")
 
-                        if txt.exists():
-                            with open(txt) as file:
-                                if not result == file.read():
-                                    logging.info(f"Deleting {txt}")
-                                    txt.unlink()
-                                else:
-                                    logging.info(f"{txt} is current.")
-                                    continue
+                        existing = (txt, lrc)
 
-                        if lrc.exists():
-                            with open(lrc) as file:
-                                if not result == file.read():
-                                    logging.info(f"Deleting {lrc}")
-                                    lrc.unlink()
-                                else:
-                                    logging.info(f"{lrc} is current")
-                                    continue
+                        for file in existing:
+                            if file.exists():
+                                with open(file) as f:
+                                    if not result == f.read():
+                                        logging.info(f"Deleting {file}")
+                                        file.unlink()
+                                    else:
+                                        logging.info(f"{file} is current")
+                                        continue
 
                     with open(destination, 'w', encoding="utf-8") as f:
                         f.write(result)
@@ -149,7 +144,6 @@ def parse_args():
     # Batch mode subcommand
     batch_parser = subparsers.add_parser('batch', help='Batch mode')
     batch_parser.add_argument('search_path', type=str, help='Search path')
-
 
     return parser.parse_args()
 

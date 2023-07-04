@@ -39,8 +39,8 @@ def _convert_to_lrc(data: dict):
 class LyricsSearcher:
     def __init__(self):
         self.genius = Genius("BspF_-f6EyT3-mzTkDjpPbpH1cRbS3Pdvu4uUs2_Zuh2Ye0wq3dcyXyVtnuumeSP")
-        self.sp = Spotify("AQAQjjNFzcmCsVMECitDP10mRW7y_vERCI5FYhFrcloIk4XnSEiTrAc1R34ICUXdqC0u6"
-                          "akLwL9pF5g3RhckEQJ3xEyVzxDS2_ifluZOEUFB3GqQlDIVPiA17t7LnDNNWq97iIwVUe9O-0QKld8nCDSfYJBsbvXk")
+        self.sp = Spotify("AQA90dq4RcwStGKgaE9e3KyYETHO4d9A0PG3izV_oYbUBlD9AQlzh95Vp7862_5Gkmt1K96ucbRA4rK0qBspj7eEpOBdyUx8TTbXZzikGp_XOlOXjDbAUWs9bqwxH4O5cJljvAteLvn2ZiJigqSbZX6KC4v9Uxqp"
+                          )
 
         self.genius.verbose = False
         self.genius.skip_non_songs = True
@@ -60,8 +60,8 @@ class LyricsSearcher:
         else:
             return None, None
 
-        if lyrics:
-            logging.warning(lyrics)
+        #if lyrics:
+         #   logging.warning(lyrics)
         if not lyrics:
             return None, None
         elif lyrics.get('syncType') == 'LINE_SYNCED' and lrc:
@@ -99,7 +99,7 @@ class LyricsSearcher:
         song = self.genius.search_song(track.track_name, track.track_artists[0])
         if not song:
             return None
-        logging.info(f"{track}|||{song}")
+        #logging.info(f"{track}|||{song}")
         title_match = SequenceMatcher(None, song.title.lower(), track.track_name.lower()).quick_ratio()
         if title_match > 0.75:
             return song.lyrics

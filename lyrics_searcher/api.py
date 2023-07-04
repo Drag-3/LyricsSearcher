@@ -48,7 +48,7 @@ def search_lyrics_by_file(music_file: Path, lrc=False):
             lyric_type = 'txt'
 
     if result:
-        logging.warning(f"{track}|||{result}")
+        #logging.warning(f"{track}|||{result}")
         return lyric_type, result
     return None, None
 
