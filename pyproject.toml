@@ -34,7 +34,7 @@ tests = [
 lyrics = "lyrics_searcher.cli:main"
 
 [tool.setuptools]
-packages = ['lyrics_searcher', 'lyricsgenius', 'lyricsgenius.api', 'lyricsgenius.api.puplic_methods',
+packages = ['lyrics_searcher', 'lyricsgenius', 'lyricsgenius.api', 'lyricsgenius.api.public_methods',
 'lyricsgenius.types']
 
 [tool.setuptools.dynamic]
