@@ -1,0 +1,16 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+LyricsSearcher.egg-info/PKG-INFO
+LyricsSearcher.egg-info/SOURCES.txt
+LyricsSearcher.egg-info/dependency_links.txt
+LyricsSearcher.egg-info/entry_points.txt
+LyricsSearcher.egg-info/requires.txt
+LyricsSearcher.egg-info/top_level.txt
+lyrics_searcher/__init__.py
+lyrics_searcher/api.py
+lyrics_searcher/auth.py
+lyrics_searcher/cli.py
+lyrics_searcher/lyric_finder.py
+lyrics_searcher/utils.py

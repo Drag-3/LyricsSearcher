@@ -2,6 +2,7 @@ import logging
 from difflib import SequenceMatcher
 from pathlib import Path
 
+from lyrics_searcher.auth import get_auth
 from lyrics_searcher.lyricsgenius.genius import Genius
 
 from lyrics_searcher.utils import Track
@@ -37,10 +38,9 @@ def _convert_to_lrc(data: dict):
 
 
 class LyricsSearcher:
-    def __init__(self):
-        self.genius = Genius("BspF_-f6EyT3-mzTkDjpPbpH1cRbS3Pdvu4uUs2_Zuh2Ye0wq3dcyXyVtnuumeSP")
-        self.sp = Spotify("AQA90dq4RcwStGKgaE9e3KyYETHO4d9A0PG3izV_oYbUBlD9AQlzh95Vp7862_5Gkmt1K96ucbRA4rK0qBspj7eEpOBdyUx8TTbXZzikGp_XOlOXjDbAUWs9bqwxH4O5cJljvAteLvn2ZiJigqSbZX6KC4v9Uxqp"
-                          )
+    def __init__(self, sp_dc, g_tok):
+        self.genius = Genius(g_tok)
+        self.sp = Spotify(sp_dc)
 
         self.genius.verbose = False
         self.genius.skip_non_songs = True
@@ -94,7 +94,6 @@ class LyricsSearcher:
         return out_str
 
     def get_genius_lyrics(self, track):
-        # gen = Genius("BspF_-f6EyT3-mzTkDjpPbpH1cRbS3Pdvu4uUs2_Zuh2Ye0wq3dcyXyVtnuumeSP")
 
         song = self.genius.search_song(track.track_name, track.track_artists[0])
         if not song:
@@ -119,7 +118,9 @@ class LyricsSearcher:
 if __name__ == "__main__":
     # test()
 
-    lyrics_searcher = LyricsSearcher()
+    spdc = get_auth("spotify")
+    g_tok = get_auth("genius")
+    lyrics_searcher = LyricsSearcher(spdc, g_tok)
 
     has_no_lyrics = 'https://open.spotify.com/track/0TYMrEy482BCnbvDxiSW1T'
     has_timed_lyrics = 'https://open.spotify.com/track/0YjFF1QQ3L3dNMkXHjEXFy?si=84feb6de68544751'

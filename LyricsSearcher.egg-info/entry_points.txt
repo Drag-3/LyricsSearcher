@@ -1,0 +1,2 @@
+[console_scripts]
+lyrics = lyrics_searcher.cli:main

@@ -2,23 +2,34 @@ import logging
 import threading
 from pathlib import Path
 
+from lyrics_searcher.auth import get_auth
 from lyrics_searcher.utils import Tagger
 from lyrics_searcher.utils import Track
 from lyrics_searcher.lyric_finder import LyricsSearcher
 
-lyrics_searcher = LyricsSearcher()
-
 
 def search_lyrics_by_name_artist(track_name, track_artist):
+    spdc = get_auth("spotify")
+    g_tok = get_auth("genius")
+    lyrics_searcher = LyricsSearcher(spdc, g_tok)
+
     track = Track(track_name=track_name, track_artists=[track_artist])
     return lyrics_searcher.get_genius_lyrics(track)
 
 
 def search_lyrics_by_spotify_url(spotify_url, track_info=None, lrc=False):
+    spdc = get_auth("spotify")
+    g_tok = get_auth("genius")
+    lyrics_searcher = LyricsSearcher(spdc, g_tok)
+
     return lyrics_searcher.get_spotify_lyrics(t_url=spotify_url, track_info=track_info, lrc=lrc)
 
 
 def search_lyrics_by_spotify_track_id(track_id, track_info=None, lrc=False):
+    spdc = get_auth("spotify")
+    g_tok = get_auth("genius")
+    lyrics_searcher = LyricsSearcher(spdc, g_tok)
+
     return lyrics_searcher.get_spotify_lyrics(t_id=track_id, track_info=track_info, lrc=lrc)
 
 
@@ -48,7 +59,7 @@ def search_lyrics_by_file(music_file: Path, lrc=False):
             lyric_type = 'txt'
 
     if result:
-        #logging.warning(f"{track}|||{result}")
+        # logging.warning(f"{track}|||{result}")
         return lyric_type, result
     return None, None
 
@@ -64,5 +75,5 @@ def extract_info_from_file(file):
                   track_artists=artist[0] if artist else [],
                   track_url=comment[0] if comment else '',
                   album_name=album[0] if album else '')
-    #logging.info(f"{file}, {track}")
+    # logging.info(f"{file}, {track}")
     return track
