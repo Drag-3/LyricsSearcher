@@ -20,3 +20,6 @@ lyricsgenius/auth.py
 lyricsgenius/errors.py
 lyricsgenius/genius.py
 lyricsgenius/utils.py
+lyricsgenius/api/__init__.py
+lyricsgenius/api/api.py
+lyricsgenius/api/base.py
