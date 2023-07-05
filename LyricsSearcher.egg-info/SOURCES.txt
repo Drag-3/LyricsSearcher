@@ -14,3 +14,9 @@ lyrics_searcher/auth.py
 lyrics_searcher/cli.py
 lyrics_searcher/lyric_finder.py
 lyrics_searcher/utils.py
+lyricsgenius/__init__.py
+lyricsgenius/__main__.py
+lyricsgenius/auth.py
+lyricsgenius/errors.py
+lyricsgenius/genius.py
+lyricsgenius/utils.py

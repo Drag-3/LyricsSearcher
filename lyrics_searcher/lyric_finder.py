@@ -3,10 +3,11 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 from lyrics_searcher.auth import get_auth
-from lyrics_searcher.lyricsgenius.genius import Genius
 
 from lyrics_searcher.utils import Track
 from syrics.api import Spotify
+
+from lyricsgenius.genius import Genius
 
 
 def write_to_file(lyric_type: str, root: Path, filename: str, data: str):
