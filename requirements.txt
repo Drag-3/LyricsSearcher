@@ -1,4 +1,4 @@
 requests~=2.31.0
 beautifulsoup4~=4.12.2
 syrics~=0.0.1.8
-mutagen~=1.46.0
+mutagen==1.47.0
