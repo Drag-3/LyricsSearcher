@@ -94,7 +94,7 @@ def extract_info_from_file(file):
     album = metadata.get('album', [])
     track = Track(track_name=title[0] if title else '',
                   track_artists=artist[0] if artist else [],
-                  track_url=url[0] if url else '',
+                  track_url=url if url else '',
                   album_name=album[0] if album else '')
     # logging.info(f"{file}, {track}")
     return track
@@ -108,6 +108,6 @@ def get_valid_spotify_url(strings):
         if string and spotify_track_url in "".join(string):
             track_id = "".join(string).replace(spotify_track_url, "")
             track_id = track_id.split("?")[0]  # Remove any trailing params
-            return track_id
+            return spotify_track_url + track_id
 
     return None
