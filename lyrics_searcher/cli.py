@@ -199,7 +199,7 @@ def parse_args():
     set_parser.add_argument('service', choices=['spotify', 'genius'], help='Specify the service')
     set_parser.add_argument('token', help='Specify the token value')
 
-    # gte subcommand
+    # get subcommand
     get_parser = direction_parser.add_parser('get')
     get_parser.add_argument('service', choices=['spotify', 'genius'], help='Specify the service')
 

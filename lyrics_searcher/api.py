@@ -67,13 +67,47 @@ def search_lyrics_by_file(music_file: Path, lrc=False):
 def extract_info_from_file(file):
     metadata = Tagger(file)
 
-    comment = metadata.get('comment', [])
+    url = get_valid_spotify_url(metadata.get('url', []))
+    comment_type = 'WXXX'
+    if not url:
+        comment_type = 'source'
+        url = get_valid_spotify_url(metadata.get('source', []))
+    if not url:
+        comment_type = 'XXX comment'
+        url = get_valid_spotify_url(metadata.get('comment', []))
+    if not url:
+        comment_type = 'NULL comment'
+        url = get_valid_spotify_url(metadata.get('commentNULL', []))
+    if not url:
+        comment_type = 'ENG comment'
+        url = get_valid_spotify_url(metadata.get('commentENG', []))
+
+    if not url:
+        comment_type = " Invalid"
+
+    logging.debug(f"Uses {comment_type} Url - {url}")
+
+
+
     artist = metadata.get('artist', [])
     title = metadata.get('title', [])
     album = metadata.get('album', [])
     track = Track(track_name=title[0] if title else '',
                   track_artists=artist[0] if artist else [],
-                  track_url=comment[0] if comment else '',
+                  track_url=url[0] if url else '',
                   album_name=album[0] if album else '')
     # logging.info(f"{file}, {track}")
     return track
+
+
+def get_valid_spotify_url(strings):
+    spotify_track_url = "https://open.spotify.com/track/"
+    if not strings:
+        return None
+    for string in strings:
+        if string and spotify_track_url in "".join(string):
+            track_id = "".join(string).replace(spotify_track_url, "")
+            track_id = track_id.split("?")[0]  # Remove any trailing params
+            return track_id
+
+    return None

@@ -30,7 +30,7 @@ class Track:
     album_id: str = None
 
 
-def register_comment(lang='\0\0\0', desc=''):
+def register_comment(lang='\0\0\0', desc='', name='comment'):
     "Register the comment tag"
     frameid = ':'.join(('COMM', desc, lang))
 
@@ -45,7 +45,7 @@ def register_comment(lang='\0\0\0', desc=''):
     def deleter(id3, _key):
         del id3[frameid]
 
-    EasyID3.RegisterKey('comment', getter, setter, deleter)
+    EasyID3.RegisterKey(name, getter, setter, deleter)
 
 
 class Tagger:
@@ -56,7 +56,9 @@ class Tagger:
 
     def __init__(self, file: Path):
         # Register Non-Standard Keys for Easy
-        register_comment()
+        register_comment('\0\0\0', name='commentNULL')  # Sunk cost since I already have a bunch of these
+        register_comment('XXX', name='comment')  # Standard for non-language specific comments
+        register_comment('eng', name='commentENG')  # English Comment
         EasyID3.RegisterTextKey("initialkey", "TKEY")
         EasyID3.RegisterTextKey("source", "WOAS")
         EasyMP4.RegisterTextKey("source", "source")
@@ -118,3 +120,9 @@ class Tagger:
 
     def save(self):
         self.tagger.save()
+
+    def pop(self, key):
+        self.tagger.pop(key)
+
+    def __str__(self):
+        return str(self.tagger)
